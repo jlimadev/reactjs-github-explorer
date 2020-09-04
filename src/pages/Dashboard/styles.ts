@@ -43,6 +43,11 @@ export const Form = styled.form`
   }
 `;
 
+export const Error = styled.span`
+  display: block;
+  color: #c53030;
+`;
+
 export const Repositories = styled.div`
   margin-top: 40px;
   max-width: 700px;
@@ -72,7 +77,8 @@ export const Repositories = styled.div`
       border-radius: 50%;
     }
     div {
-      margin-left: 16px;
+      margin: 0 16px;
+      flex: 1;
 
       strong {
         font-size: 20px;
