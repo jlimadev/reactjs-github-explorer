@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { FiChevronLeft, FiChevronRight } from 'react-icons/fi';
 import { Link, useRouteMatch } from 'react-router-dom';
+import { CircularProgress } from '@material-ui/core';
 import logoImg from '../../assets/logo.svg';
 import api from '../../services/api';
 import { Header, Issues, RepositoryInfo } from './styles';
@@ -41,6 +42,7 @@ const Repository: React.FC = () => {
         setRepository(response.data);
       });
       api.get(`/repos/${params.repository}/issues`).then(response => {
+        console.log(response.data);
         setIssues(response.data);
       });
     };
@@ -58,7 +60,7 @@ const Repository: React.FC = () => {
         </Link>
       </Header>
 
-      {repository && (
+      {repository ? (
         <RepositoryInfo>
           <header>
             <img
@@ -85,19 +87,25 @@ const Repository: React.FC = () => {
             </li>
           </ul>
         </RepositoryInfo>
+      ) : (
+        <CircularProgress />
       )}
 
-      <Issues>
-        {issues.map(issue => (
-          <a key={issue.id} href={issue.html_url} target="blank">
-            <div>
-              <strong>{issue.title}</strong>
-              <p>{issue.user.login}</p>
-            </div>
-            <FiChevronRight size={20} />
-          </a>
-        ))}
-      </Issues>
+      {issues ? (
+        <Issues>
+          {issues.map(issue => (
+            <a key={issue.id} href={issue.html_url} target="blank">
+              <div>
+                <strong>{issue.title}</strong>
+                <p>{issue.user.login}</p>
+              </div>
+              <FiChevronRight size={20} />
+            </a>
+          ))}
+        </Issues>
+      ) : (
+        <CircularProgress />
+      )}
     </>
   );
 };
